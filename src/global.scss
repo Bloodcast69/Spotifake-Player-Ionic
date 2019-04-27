@@ -9,3 +9,41 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+.font-size__small {
+  font-size: 14px;
+}
+
+.font-size__medium {
+  font-size: 18px;
+}
+
+.font-size__big {
+  font-size: 24px;
+}
+
+.font-color__gray {
+  color: #9a9b9b;
+}
+
+.font-color__green {
+  color: #37b34a;
+}
+
+.font-color__white {
+  color: #fff;
+}
+
+.text-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overfow: ellipsis;
+
+}
+
+app-next-song {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
