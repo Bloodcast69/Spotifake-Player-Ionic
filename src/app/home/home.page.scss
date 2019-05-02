@@ -25,14 +25,14 @@
 
 .player-logo__button {
   display: flex;
-  width: 25%;
-  height: 25%;
+  width: 75px;
+  height: 75px;
   border: 2px solid #37b34a;
   background-color: #1b1b1b;
   border-radius: 50%;
   position: absolute;
-  top: calc(50% - 12.5%);
-  left: calc(50% - 12.5%);
+  top: calc(50% - 37.5px);
+  left: calc(50% - 37.5px);
   z-index: 2;
 }
 
@@ -45,4 +45,17 @@
   background-image: linear-gradient(to top, #1b1b1b 0%, rgba(27, 27, 27, 0) 100%);
   width: 100%;
   height: 400px;
+}
+
+
+.album-info__overlay {
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 80px);
+  background: rgba(27,27,27,0.96);
+  z-index: 20;
+  top: 0;
+  left: 0;
+  margin-top: 1px;
+  transform: translateY(120%);
 }

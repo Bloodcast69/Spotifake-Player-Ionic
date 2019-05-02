@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-next-song',
@@ -7,8 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NextSongComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {}
+
+  openPlaylist() {
+    this.router.navigate(['playlist']);
+  }
 
 }

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
-import {NextSongComponent} from '../shared/next-song/next-song.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -17,8 +17,9 @@ import {NextSongComponent} from '../shared/next-song/next-song.component';
         path: '',
         component: HomePage
       }
-    ])
+    ]),
+      SharedModule,
   ],
-  declarations: [HomePage, NextSongComponent]
+  declarations: [HomePage]
 })
 export class HomePageModule {}

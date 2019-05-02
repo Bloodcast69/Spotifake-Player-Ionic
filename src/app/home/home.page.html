@@ -1,15 +1,4 @@
-<!--<ion-header>-->
-<!--<ion-toolbar>-->
-<!--<ion-title>-->
-<!--Ionic Blank-->
-<!--</ion-title>-->
-<!--</ion-toolbar>-->
-<!--</ion-header>-->
-
 <ion-content>
-    <!--<div class="main-bg__gradient" style="position: absolute">-->
-    <!--&lt;!&ndash;<img src="assets/bg_photo.png" alt="">&ndash;&gt;-->
-    <!--</div>-->
     <ion-grid class="ion-padding">
         <ion-row class="ion-justify-content-between ion-align-items-center">
             <ion-col>
@@ -17,30 +6,29 @@
             </ion-col>
             <ion-col class="ion-text-center">
                 <p class="ion-no-margin font-size__small font-color__gray">ALBUM</p>
-                <p class="ion-no-margin font-size__medium font-color__white">Unreleased</p>
+                <p class="ion-no-margin font-size__medium font-color__white">{{activeSlideImage.albumName}}</p>
             </ion-col>
-            <ion-col class="ion-align-self-end ion-text-end">
+            <ion-col class="ion-align-self-end ion-text-end" (click)="loadMoreAlbumInfo()">
                 <img src="assets/more_ico.svg" alt="">
             </ion-col>
         </ion-row>
 
-        <ion-row class="ion-justify-content-center ion-align-items-center" style="margin-top: 2.5rem">
-            <ion-col size="8">
-                <div class="player-logo__button ion-justify-content-center ion-align-items-center">
-                    <img src="assets/performante_logo.svg" alt="" class="player-logo__image">
-                </div>
+        <ion-row class="ion-justify-content-center ion-align-items-center" >
+            <ion-col size="12">
 
-                <ion-slides [options]="options">
-                    <ion-slide>
-                        <img src="assets/cover_1.png" alt="">
-                    </ion-slide>
-                    <ion-slide>
-                        <img src="assets/cover_2.png" alt="">
-                    </ion-slide>
-                    <ion-slide>
-                        <img src="assets/cover_3.png" alt="">
-                    </ion-slide>
-                </ion-slides>
+
+                <ion-row class="ion-text-center ion-justify-content-center">
+                    <ion-col size="10">
+                        <div class="player-logo__button ion-justify-content-center ion-align-items-center">
+                            <img src="assets/performante_logo.svg" alt="" class="player-logo__image">
+                        </div>
+                        <ion-slides [options]="options" (ionSlideDidChange)="onSlideChange()">
+                            <ion-slide *ngFor="let album of coverImages">
+                                <img [src]="album.coverSrc" alt="">
+                            </ion-slide>
+                        </ion-slides>
+                    </ion-col>
+                </ion-row>
 
             </ion-col>
         </ion-row>
@@ -49,7 +37,7 @@
         <ion-row style="margin-top: 2.5rem;">
             <ion-col>
                 <p class="font-size__big font-color__green ion-no-margin ion-text-center">Self Conscious</p>
-                <p class="font-size__small ion-no-margin ion-text-center font-color__gray">KANYE WEST</p>
+                <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSlideImage.albumArtist | titlecase}}</p>
             </ion-col>
         </ion-row>
 
@@ -57,13 +45,13 @@
             <ion-col size="1">
                 <img src="assets/shuffle_ico.svg" alt="">
             </ion-col>
-            <ion-col size="1" class="ion-text-center" (click)="slides.slidePrev(400)">
+            <ion-col size="1" class="ion-text-center" (click)="slides.slidePrev(200)">
                 <img src="assets/previous_ico.svg" alt="">
             </ion-col>
             <ion-col size="6" class="ion-text-center">
                 <img src="assets/Play_active.png" alt="" (click)="playSong($event)">
             </ion-col>
-            <ion-col size="1" class="ion-text-center" (click)="slides.slideNext(400)">
+            <ion-col size="1" class="ion-text-center" (click)="slides.slideNext(200)">
                 <img src="assets/next_ico.svg" alt="">
             </ion-col>
             <ion-col size="1" class="ion-text-end">
@@ -88,6 +76,55 @@
 
 
     </ion-grid>
-    <!--<img src="assets/waveform.png" class="waveform">-->
     <app-next-song></app-next-song>
 </ion-content>
+
+<div class="album-info__overlay" #albumInfoOverlay>
+    <ion-grid class="ion-padding">
+        <ion-row class="ion-justify-content-between ion-align-items-center">
+            <ion-col>
+                <img src="assets/back_ico.svg" alt="" (click)="backToMainPage()">
+            </ion-col>
+
+            <ion-col class="ion-align-self-end ion-text-end" (click)="loadMoreAlbumInfo()">
+                <img src="assets/more_ico.svg" alt="">
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+            <ion-col size="12">
+
+                <ion-row class="ion-text-center ion-justify-content-center">
+                    <ion-col size="10">
+                        <img [src]="activeSlideImage.coverSrc" alt="">
+                    </ion-col>
+                </ion-row>
+
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row style="margin-top: 2.5rem">
+            <ion-col>
+                <p class="font-size__big font-color__green ion-no-margin ion-text-center">Self Conscious</p>
+                <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSlideImage.albumArtist | titlecase}}</p>
+            </ion-col>
+        </ion-row>
+
+        <p class="font-size__big font-color__gray ion-text-center ion-no-margin">. . .</p>
+
+
+        <ion-row>
+            <ion-col class="ion-text-center">
+                <p class="font-size__medium font-color__white">Add to playlist</p>
+                <p class="font-size__medium font-color__white">Show album</p>
+                <p class="font-size__medium font-color__white">Share with friends</p>
+            </ion-col>
+        </ion-row>
+
+
+    </ion-grid>
+    <!--<img src="assets/waveform.png" class="waveform">-->
+    <!--<app-next-song></app-next-song>-->
+
+</div>
