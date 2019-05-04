@@ -1,76 +1,41 @@
 <ion-content>
-  <ion-grid class="ion-padding">
-    <ion-row class="ion-justify-content-between ion-align-items-center" style="height: 130px">
-      <ion-col class="ion-text-center">
-        <p class="ion-no-margin font-size__small font-color__green">Self Conscious</p>
-        <p class="ion-no-margin font-size__medium font-color__gray">{{activeSlideImage.albumArtist}}</p>
-      </ion-col>
-      <ion-col class="ion-align-self-end ion-text-end" (click)="loadMoreAlbumInfo()">
-        <img src="assets/Play_active.png" alt="">
-      </ion-col>
-    </ion-row>
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-justify-content-between ion-align-items-center playlist-info__bar">
+        <ion-col class="ion-text-center ">
+          <div class="ion-padding">
+            <p class="ion-text-left ion-no-margin font-size__medium font-color__green">Self Conscious</p>
+            <p class="ion-text-left ion-no-margin font-size__small font-color__gray">{{activeSlideImage.albumArtist}}</p>
+          </div>
+        </ion-col>
+        <ion-col class="ion-align-self-end ion-text-end h-100">
+          <img src="assets/Play_active.png" alt="" class="h-100">
+        </ion-col>
+      </ion-row>
 
-    <ion-row class="ion-justify-content-center ion-align-items-center" >
-      <ion-col size="12">
+      <div class="ion-padding">
+        <ion-row>
+          <ion-col>
+            <!-- List of Text Items -->
+              <ion-list lines="none" class="saturate">
+                <ion-item *ngFor="let song of playlistSongs; let i = index" class="ion-no-padding ion-align-items-end">
+                  <span class="font-size__small font-color__gray playlist-info__iterator"
+                        style="padding-right: 5px">{{i + 1}}.</span>
+                  <ion-label class="text-overflow">{{song.title}} <span class="text-overflow">....................................</span>
+                  </ion-label>
 
-
-        <!--<ion-row class="ion-text-center ion-justify-content-center">-->
-          <!--<ion-col size="10">-->
-            <!--<div class="player-logo__button ion-justify-content-center ion-align-items-center">-->
-              <!--<img src="assets/performante_logo.svg" alt="" class="player-logo__image">-->
-            <!--</div>-->
-            <!--<ion-slides [options]="options" (ionSlideDidChange)="onSlideChange()">-->
-              <!--<ion-slide *ngFor="let album of coverImages">-->
-                <!--<img [src]="album.coverSrc" alt="">-->
-              <!--</ion-slide>-->
-            <!--</ion-slides>-->
-          <!--</ion-col>-->
-        <!--</ion-row>-->
-
-      </ion-col>
-    </ion-row>
-
-
-    <ion-row style="margin-top: 2.5rem;">
-      <ion-col>
-        <p class="font-size__big font-color__green ion-no-margin ion-text-center">Self Conscious</p>
-        <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSlideImage.albumArtist | titlecase}}</p>
-      </ion-col>
-    </ion-row>
-
-    <!--<ion-row class="ion-align-items-center ion-justify-content-between">-->
-      <!--<ion-col size="1">-->
-        <!--<img src="assets/shuffle_ico.svg" alt="">-->
-      <!--</ion-col>-->
-      <!--<ion-col size="1" class="ion-text-center" (click)="slides.slidePrev(200)">-->
-        <!--<img src="assets/previous_ico.svg" alt="">-->
-      <!--</ion-col>-->
-      <!--<ion-col size="6" class="ion-text-center">-->
-        <!--<img src="assets/Play_active.png" alt="" (click)="playSong($event)">-->
-      <!--</ion-col>-->
-      <!--<ion-col size="1" class="ion-text-center" (click)="slides.slideNext(200)">-->
-        <!--<img src="assets/next_ico.svg" alt="">-->
-      <!--</ion-col>-->
-      <!--<ion-col size="1" class="ion-text-end">-->
-        <!--<img src="assets/repeat_ico.svg" alt="">-->
-      <!--</ion-col>-->
-    <!--</ion-row>-->
-
-    <ion-row class="ion-align-items-center">
-      <ion-col>
-        <p class="font-size__small font-color__gray">1:47</p>
-      </ion-col>
-      <ion-col size="8" class="ion-align-items-center">
-        <div style="width: 100%; border-radius: 1px; height: 2px; background-color: #000">
-        </div>
-        <div class="player-track"></div>
-
-      </ion-col>
-      <ion-col>
-        <p class="font-size__small font-color__gray ion-text-end">4:21</p>
-      </ion-col>
-    </ion-row>
+                  <span class="font-color__gray ion-no-padding" style="padding-left: 5px">{{song.duration}}</span>
+                </ion-item>
+              </ion-list>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="d-flex flex-direction-column ion-align-items-center">
+            <ion-button expand="block">Shuffle Play</ion-button>
+            <img src="assets/hide_ico.png" class="ion-margin-top" (click)="closePlaylist()">
+          </ion-col>
+        </ion-row>
+      </div>
 
 
-  </ion-grid>
+    </ion-grid>
 </ion-content>

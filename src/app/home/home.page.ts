@@ -1,6 +1,8 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {IonSlides} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {PlaylistService} from '../playlist.service';
+
 export interface ICoverImage {
     albumName: string;
     albumArtist: string;
@@ -22,15 +24,26 @@ export class HomePage {
         initialSlide: 1
     };
 
-    coverImages: ICoverImage[] = [
-        {albumName: 'Unreleased1', albumArtist: 'Kanye West', coverSrc: 'assets/cover_1.png'},
-        {albumName: 'Unreleased', albumArtist: 'Kanye West', coverSrc: 'assets/cover_2.png'},
-        {albumName: 'Unreleased3', albumArtist: 'Kanye West', coverSrc: 'assets/cover_3.png'},
-    ];
+    // coverImages: ICoverImage[] = [
+    //     {albumName: 'Unreleased1', albumArtist: 'Kanye West', coverSrc: 'assets/cover_1.png'},
+    //     {albumName: 'Unreleased', albumArtist: 'Kanye West', coverSrc: 'assets/cover_2.png'},
+    //     {albumName: 'Unreleased3', albumArtist: 'Kanye West', coverSrc: 'assets/cover_3.png'},
+    // ];
+
+    coverImages: ICoverImage[] = this.playlistService.songsList;
 
     activeSlideImage: ICoverImage = this.coverImages[0];
 
-    constructor(private router: Router, private renderer: Renderer2) {
+    constructor(
+        private router: Router,
+        private renderer: Renderer2,
+        private playlistService: PlaylistService) {
+
+        this.playlistService.currentPlayedAlbum = this.coverImages[0];
+
+        this.playlistService.songsListChange().subscribe((songs: any) => {
+            this.coverImages = songs;
+        });
 
     }
 
@@ -47,18 +60,13 @@ export class HomePage {
 
 
     loadMoreAlbumInfo() {
-        this.renderer.setStyle(this.albumInfoOverlay.nativeElement, 'transition', 'all 400ms');
-        this.renderer.setStyle(this.albumInfoOverlay.nativeElement, 'transform', 'translateY(0%)');
-    }
-
-    backToMainPage() {
-        this.renderer.setStyle(this.albumInfoOverlay.nativeElement, 'transition', 'all 400ms');
-        this.renderer.setStyle(this.albumInfoOverlay.nativeElement, 'transform', 'translateY(120%)');
+        this.router.navigate(['more']);
     }
 
     onSlideChange() {
         this.slides.getActiveIndex().then((slideIndex: any) => {
             this.activeSlideImage = this.coverImages[slideIndex];
+            this.playlistService.currentPlayedAlbum = this.activeSlideImage;
         });
     }
 

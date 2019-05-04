@@ -1,5 +1,7 @@
 {
   "name": "spotifake",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
