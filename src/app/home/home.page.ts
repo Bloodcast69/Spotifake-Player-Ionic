@@ -1,12 +1,16 @@
 import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
-import {IonSlides} from '@ionic/angular';
+import {IonSlides, ModalController} from '@ionic/angular';
 import {Router} from '@angular/router';
 import {PlaylistService} from '../playlist.service';
+import {getSongTime} from '../shared/getSongTime';
+import {PlaylistPage} from '../playlist/playlist.page';
 
-export interface ICoverImage {
+export interface ISong {
     albumName: string;
     albumArtist: string;
     coverSrc: string;
+    songName: string;
+    songAddress: string;
 }
 
 @Component({
@@ -19,45 +23,58 @@ export class HomePage {
     @ViewChild(IonSlides) slides: IonSlides;
     @ViewChild('albumInfoOverlay') albumInfoOverlay: ElementRef;
 
-    isPlayedSong = false;
+    audio = new Audio('assets/song1.mp3');
+    currentAudioTime = 0;
+    isSongPlaying = false;
+
+
     options = {
         initialSlide: 1
     };
 
-    // coverImages: ICoverImage[] = [
-    //     {albumName: 'Unreleased1', albumArtist: 'Kanye West', coverSrc: 'assets/cover_1.png'},
-    //     {albumName: 'Unreleased', albumArtist: 'Kanye West', coverSrc: 'assets/cover_2.png'},
-    //     {albumName: 'Unreleased3', albumArtist: 'Kanye West', coverSrc: 'assets/cover_3.png'},
-    // ];
-
-    coverImages: ICoverImage[] = this.playlistService.songsList;
-
-    activeSlideImage: ICoverImage = this.coverImages[0];
+    songsList: ISong[] = this.playlistService.songsList;
+    activeSong: ISong = this.songsList[0];
+    nextSong: ISong;
 
     constructor(
         private router: Router,
         private renderer: Renderer2,
-        private playlistService: PlaylistService) {
+        private playlistService: PlaylistService,
+        private modalController: ModalController) {
 
-        this.playlistService.currentPlayedAlbum = this.coverImages[0];
+        this.playlistService.currentPlayedAlbum = this.songsList[0];
 
         this.playlistService.songsListChange().subscribe((songs: any) => {
-            this.coverImages = songs;
+            this.songsList = songs;
         });
 
+        this.audio.addEventListener('timeupdate', () => {
+            this.currentAudioTime = Math.floor(this.audio.currentTime);
+            this.getSongTime(this.currentAudioTime);
+        });
+
+        this.nextSong = this.playlistService.getNextSong(this.activeSong);
+        console.log(this.activeSong);
+        console.log(this.nextSong);
     }
 
+    playSong() {
+        this.isSongPlaying = !this.isSongPlaying;
 
-    playSong(event: any) {
-        this.isPlayedSong = !this.isPlayedSong;
-        if (this.isPlayedSong) {
-            event.target.attributes.src.value = 'assets/Play_inactive.png';
+        if (this.isSongPlaying) {
+            this.audio.play();
         } else {
-            event.target.attributes.src.value = 'assets/Play_active.png';
-
+            this.audio.pause();
         }
     }
 
+    getSongTime(time: number): { minutes: string | number, seconds: string | number, fullTime: string } {
+        return getSongTime(time);
+    }
+
+    slideAudioDuration(event: any) {
+        this.currentAudioTime = event.detail.value;
+    }
 
     loadMoreAlbumInfo() {
         this.router.navigate(['more']);
@@ -65,9 +82,45 @@ export class HomePage {
 
     onSlideChange() {
         this.slides.getActiveIndex().then((slideIndex: any) => {
-            this.activeSlideImage = this.coverImages[slideIndex];
-            this.playlistService.currentPlayedAlbum = this.activeSlideImage;
+            this.activeSong = this.songsList[slideIndex];
+            this.nextSong = this.playlistService.getNextSong(this.activeSong);
+            this.playlistService.currentPlayedAlbum = this.activeSong;
         });
     }
 
+    slideDragEnd() {
+        this.audio.currentTime = this.currentAudioTime;
+    }
+
+    changeSong(direction: string) {
+        const isAudioPlaying = !this.audio.paused;
+
+        if (isAudioPlaying) {
+            this.stopAudioAndResetCounters();
+        }
+
+        if (direction === 'prev') {
+            this.slides.slidePrev(200);
+        } else if (direction === 'next') {
+            this.slides.slideNext(200);
+        }
+    }
+
+    private stopAudioAndResetCounters(): void {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.currentAudioTime = 0;
+        this.isSongPlaying = false;
+    }
+
+    playNextSong(event: ISong) {
+        this.changeSong('next');
+    }
+
+    playSongFromPlaylist(event: ISong) {
+        this.audio = new Audio(event.songAddress);
+        this.slides.slideTo(this.songsList.findIndex((song: ISong) => song === event));
+        // this.changeSong('prev');
+        console.log('xxxxx', event);
+    }
 }

@@ -16,11 +16,14 @@
 }
 
 .player-track {
-  width: 75%;
-  height: 4px;
-  background-color: #2a2a2a;
-  border-radius: 0 3px 3px 0;
+  --bar-background-active: #37b34a;
   margin-top: -3px;
+}
+
+.player-track-bar {
+  position: absolute;
+  width: 90%;
+  bottom: 80px;
 }
 
 .player-logo__button {
@@ -47,16 +50,6 @@
   height: 400px;
 }
 
-
-//.album-info__overlay {
-//  position: fixed;
-//  width: 100%;
-//  height: 100%;
-//  background: rgba(27,27,27,0.96);
-//  z-index: 20;
-//  top: 0;
-//  left: 0;
-//  margin-top: 1px;
-//  transform: translateY(120%);
-//  overfow-y: scroll;
-//}
+:host(.range-has-pin) {
+  padding-top: unset;
+}

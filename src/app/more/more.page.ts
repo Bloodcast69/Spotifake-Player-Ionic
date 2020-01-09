@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {PlaylistService} from '../playlist.service';
-import {ICoverImage} from '../home/home.page';
+import {ISong} from '../home/home.page';
 
 @Component({
   selector: 'app-more',
@@ -10,7 +10,7 @@ import {ICoverImage} from '../home/home.page';
 })
 export class MorePage implements OnInit {
 
-  activeSlideImage: ICoverImage;
+  activeSlideImage: ISong;
   constructor(
       private router: Router,
       private playlistService: PlaylistService) {
@@ -25,7 +25,7 @@ export class MorePage implements OnInit {
   }
 
   backToMainPage() {
-   this.router.navigate(['home']);
+   this.router.navigate(['/home']);
   }
 
 }

@@ -5,7 +5,7 @@
                 <img src="assets/back_ico.svg" alt="" (click)="backToMainPage()">
             </ion-col>
 
-            <ion-col class="ion-align-self-end ion-text-end" (click)="loadMoreAlbumInfo()">
+            <ion-col class="ion-align-self-end ion-text-end">
                 <img src="assets/more_ico.svg" alt="">
             </ion-col>
         </ion-row>
@@ -25,7 +25,7 @@
 
         <ion-row style="margin-top: 2.5rem">
             <ion-col>
-                <p class="font-size__big font-color__green ion-no-margin ion-text-center">Self Conscious</p>
+                <p class="font-size__big font-color__green ion-no-margin ion-text-center">{{activeSlideImage?.songName}}</p>
                 <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSlideImage?.albumArtist | titlecase}}</p>
             </ion-col>
         </ion-row>
@@ -43,7 +43,4 @@
 
 
     </ion-grid>
-    <!--<img src="assets/waveform.png" class="waveform">-->
-    <!--<app-next-song></app-next-song>-->
-
 </div>
