@@ -1,0 +1,15 @@
+<ion-content scroll-y="false">
+    <ion-grid class="ion-padding h-100">
+        <ion-row style="display: flex; flex-direction: column" class="h-100">
+            <ion-col style="display: flex; flex-direction: column" class="ion-text-center ion-justify-content-center">
+              <ng-container *ngIf="user; else noUser">
+                <p class="font-color__white ion-text-center">You're logged in as {{user.login}}</p>
+                <ion-button expand="block" (click)="redirectToPlayer()">Go to Spotifake</ion-button>
+              </ng-container>
+              <ng-template #noUser><p class="font-color__white">You're not logged in. Tap below button to log into Spotifake.</p>
+                <ion-button expand="block" (click)="logIn()">Log in</ion-button>
+              </ng-template>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

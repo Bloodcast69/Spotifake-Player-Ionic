@@ -1,9 +1,9 @@
-import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {IonSlides, ModalController} from '@ionic/angular';
-import {Router} from '@angular/router';
 import {PlaylistService} from '../playlist.service';
 import {getSongTime} from '../shared/getSongTime';
-import {PlaylistPage} from '../playlist/playlist.page';
+import {MorePage} from '../more/more.page';
+import {Router} from '@angular/router';
 
 export interface ISong {
     albumName: string;
@@ -37,10 +37,9 @@ export class HomePage {
     nextSong: ISong;
 
     constructor(
-        private router: Router,
-        private renderer: Renderer2,
         private playlistService: PlaylistService,
-        private modalController: ModalController) {
+        private modalController: ModalController,
+        private router: Router) {
 
         this.playlistService.currentPlayedAlbum = this.songsList[0];
 
@@ -54,8 +53,6 @@ export class HomePage {
         });
 
         this.nextSong = this.playlistService.getNextSong(this.activeSong);
-        console.log(this.activeSong);
-        console.log(this.nextSong);
     }
 
     playSong() {
@@ -76,8 +73,14 @@ export class HomePage {
         this.currentAudioTime = event.detail.value;
     }
 
-    loadMoreAlbumInfo() {
-        this.router.navigate(['more']);
+    async loadMoreAlbumInfo() {
+        const modal = await this.modalController.create({
+            component: MorePage,
+            componentProps: {
+                activeSong: this.activeSong
+            }
+        });
+        return await modal.present();
     }
 
     onSlideChange() {
@@ -113,14 +116,16 @@ export class HomePage {
         this.isSongPlaying = false;
     }
 
-    playNextSong(event: ISong) {
+    playNextSong() {
         this.changeSong('next');
     }
 
     playSongFromPlaylist(event: ISong) {
         this.audio = new Audio(event.songAddress);
         this.slides.slideTo(this.songsList.findIndex((song: ISong) => song === event));
-        // this.changeSong('prev');
-        console.log('xxxxx', event);
+    }
+
+    backToMainPage() {
+        this.router.navigate(['main']);
     }
 }

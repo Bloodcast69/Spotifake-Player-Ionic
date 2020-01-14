@@ -1,31 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, Input} from '@angular/core';
 import {PlaylistService} from '../playlist.service';
 import {ISong} from '../home/home.page';
+import {ModalController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-more',
-  templateUrl: './more.page.html',
-  styleUrls: ['./more.page.scss'],
+    selector: 'app-more',
+    templateUrl: './more.page.html',
+    styleUrls: ['./more.page.scss'],
 })
-export class MorePage implements OnInit {
+export class MorePage {
 
-  activeSlideImage: ISong;
-  constructor(
-      private router: Router,
-      private playlistService: PlaylistService) {
-    this.playlistService.currentPlayedAlbumChange().subscribe((album: any) => {
-      console.log(album);
-    })
-    this.activeSlideImage = this.playlistService.songsList[0];
+    @Input() activeSong: ISong;
 
-  }
+    constructor(
+        private playlistService: PlaylistService,
+        private modalController: ModalController) {
+        this.activeSong = this.playlistService.songsList[0];
+    }
 
-  ngOnInit() {
-  }
-
-  backToMainPage() {
-   this.router.navigate(['/home']);
-  }
-
+    backToMainPage() {
+        this.modalController.dismiss();
+    }
 }

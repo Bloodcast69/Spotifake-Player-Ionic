@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {ISong} from '../../home/home.page';
 import {PlaylistPage} from '../../playlist/playlist.page';
 import {ModalController} from '@ionic/angular';
+import {getSongTime} from '../getSongTime';
 
 @Component({
     selector: 'app-next-song',
@@ -31,12 +32,18 @@ export class NextSongComponent implements OnInit {
         });
 
         modal.onDidDismiss().then(({data}) => {
-            this.playSongFromPlaylist.emit(data.song);
+            if (data.song) {
+                this.playSongFromPlaylist.emit(data.song);
+            }
         });
         return await modal.present();
     }
 
     playSong(nextSong: ISong) {
         this.playNextSong.emit(nextSong);
+    }
+
+    getSongTime(time: number) {
+        return `${getSongTime(time).minutes}:${Math.floor(Number(getSongTime(time).seconds))}` || '00:00';
     }
 }

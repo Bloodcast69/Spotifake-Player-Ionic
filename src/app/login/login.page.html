@@ -1,0 +1,25 @@
+<ion-content scroll-y="false">
+    <ion-grid class="ion-padding h-100">
+        <ion-row style="display: flex; flex-direction: column" class="h-100">
+            <ion-col style="display: flex; flex-direction: column"
+                     class="ion-text-center font-color__white ion-justify-content-center">
+                <ion-card class="login-card">
+                    <ion-card-header>
+                        <ion-card-title>Log into Spotifake</ion-card-title>
+                    </ion-card-header>
+
+                    <ion-card-content>
+                        <form [formGroup]="form">
+                            <ion-input formControlName="login" placeholder="Enter login"></ion-input>
+                            <ion-input formControlName="password" placeholder="Enter password"></ion-input>
+                        </form>
+                        <ion-button expand="block" (click)="logIn()" [disabled]="loading || form.invalid">Log in
+                            <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
+                        </ion-button>
+                      <p>You have no account yet? <span (click)="redirectToRegister()" class="font-color__green">Create one for free!</span></p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

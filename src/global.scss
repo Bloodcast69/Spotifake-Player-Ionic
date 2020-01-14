@@ -64,3 +64,9 @@ app-next-song {
   left: 0;
   z-index: 30;
 }
+
+ion-button {
+  --background: #37b34a;
+  --border-radius: 30px;
+  width: 100%;
+}

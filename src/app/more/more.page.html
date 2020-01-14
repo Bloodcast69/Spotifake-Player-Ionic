@@ -4,10 +4,6 @@
             <ion-col>
                 <img src="assets/back_ico.svg" alt="" (click)="backToMainPage()">
             </ion-col>
-
-            <ion-col class="ion-align-self-end ion-text-end">
-                <img src="assets/more_ico.svg" alt="">
-            </ion-col>
         </ion-row>
 
         <ion-row class="ion-justify-content-center ion-align-items-center">
@@ -15,7 +11,7 @@
 
                 <ion-row class="ion-text-center ion-justify-content-center">
                     <ion-col size="10">
-                        <img [src]="activeSlideImage?.coverSrc" alt="">
+                        <img [src]="activeSong?.coverSrc" alt="">
                     </ion-col>
                 </ion-row>
 
@@ -25,8 +21,8 @@
 
         <ion-row style="margin-top: 2.5rem">
             <ion-col>
-                <p class="font-size__big font-color__green ion-no-margin ion-text-center">{{activeSlideImage?.songName}}</p>
-                <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSlideImage?.albumArtist | titlecase}}</p>
+                <p class="font-size__big font-color__green ion-no-margin ion-text-center">{{activeSong?.songName}}</p>
+                <p class="font-size__small ion-no-margin ion-text-center font-color__gray">{{activeSong?.albumArtist | titlecase}}</p>
             </ion-col>
         </ion-row>
 

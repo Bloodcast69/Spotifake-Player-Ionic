@@ -17,7 +17,7 @@
                 <ng-template #noNextSong>No next song available</ng-template>
             </ion-col>
             <ion-col class="ion-align-self-end">
-                <p class="font-color__gray font-size__medium ion-no-margin ion-text-end">{{nextAudio.duration || '00:00'}}</p>
+                <p class="font-color__gray font-size__medium ion-no-margin ion-text-end">{{getSongTime(nextAudio.duration)}}</p>
             </ion-col>
         </ion-row>
     </ion-grid>

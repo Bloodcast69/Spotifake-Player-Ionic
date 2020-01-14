@@ -2,7 +2,7 @@
     <ion-grid class="ion-padding" >
         <ion-row class="ion-justify-content-between ion-align-items-center">
             <ion-col>
-                <img src="assets/back_ico.svg" alt="">
+                <img src="assets/back_ico.svg" alt="" (click)="backToMainPage()">
             </ion-col>
             <ion-col class="ion-text-center">
                 <p class="ion-no-margin font-size__small font-color__gray">ALBUM</p>
@@ -73,7 +73,7 @@
 
 
     </ion-grid>
-    <app-next-song [nextSong]="nextSong" (playNextSong)="playNextSong($event)" (playSongFromPlaylist)="playSongFromPlaylist($event)"></app-next-song>
+    <app-next-song [nextSong]="nextSong" (playNextSong)="playNextSong()" (playSongFromPlaylist)="playSongFromPlaylist($event)"></app-next-song>
 
 
 </ion-content>
