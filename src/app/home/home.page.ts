@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {IonSlides, ModalController} from '@ionic/angular';
 import {PlaylistService} from '../playlist.service';
 import {getSongTime} from '../shared/getSongTime';
@@ -18,7 +18,7 @@ export interface ISong {
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
     @ViewChild('albumCovers') albumCovers: any;
     @ViewChild(IonSlides) slides: IonSlides;
     @ViewChild('albumInfoOverlay') albumInfoOverlay: ElementRef;
@@ -32,8 +32,8 @@ export class HomePage {
         initialSlide: 1
     };
 
-    songsList: ISong[] = this.playlistService.songsList;
-    activeSong: ISong = this.songsList[0];
+    songsList: ISong[];
+    activeSong: ISong;
     nextSong: ISong;
 
     constructor(
@@ -41,10 +41,18 @@ export class HomePage {
         private modalController: ModalController,
         private router: Router) {
 
-        this.playlistService.currentPlayedAlbum = this.songsList[0];
+
+        this.playlistService.playlistLoaded().subscribe((playlist: ISong[]) => {
+            this.songsList = this.playlistService.songsList;
+            this.activeSong = this.songsList[0];
+            this.playlistService.currentPlayedAlbum = this.songsList[0];
+            this.nextSong = this.playlistService.getNextSong(this.activeSong);
+            this.activeSong = this.songsList[0];
+        });
 
         this.playlistService.songsListChange().subscribe((songs: any) => {
             this.songsList = songs;
+            this.activeSong = this.songsList[0];
         });
 
         this.audio.addEventListener('timeupdate', () => {
@@ -52,7 +60,11 @@ export class HomePage {
             this.getSongTime(this.currentAudioTime);
         });
 
-        this.nextSong = this.playlistService.getNextSong(this.activeSong);
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+        }, 0);
     }
 
     playSong() {

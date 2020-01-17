@@ -1,5 +1,5 @@
 <ion-content>
-    <ion-grid class="ion-no-padding">
+    <ion-grid class="ion-no-padding" *ngIf="playlistSongs; else noSongs">
       <ion-row class="ion-justify-content-between ion-align-items-center playlist-info__bar">
         <ion-col class="ion-text-center ">
           <div class="ion-padding">
@@ -31,3 +31,7 @@
       </div>
     </ion-grid>
 </ion-content>
+
+<ng-template #noSongs>
+  <ion-spinner name="crescent"></ion-spinner>
+</ng-template>

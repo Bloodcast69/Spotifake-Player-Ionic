@@ -9,21 +9,19 @@ import {ModalController} from '@ionic/angular';
     styleUrls: ['./playlist.page.scss'],
 })
 export class PlaylistPage implements OnInit {
-    activeSlideImage: ISong = {
-        albumName: 'Test Album 1',
-        albumArtist: 'Test Artist 1',
-        coverSrc: 'assets/cover_1.png',
-        songName: 'Test Song 1',
-        songAddress: 'assets/song1.mp3'
-    };
+    activeSlideImage: ISong;
 
     playlistSongs: ISong[];
 
     constructor(private playlistService: PlaylistService, private modalController: ModalController) {
-        this.playlistSongs = this.playlistService.songsList;
+        this.playlistService.loadPlaylist();
     }
 
     ngOnInit() {
+        this.playlistService.playlistLoaded().subscribe((playlist: ISong[]) => {
+            this.playlistSongs = playlist;
+            this.activeSlideImage = playlist[0];
+        });
     }
 
     closePlaylist() {

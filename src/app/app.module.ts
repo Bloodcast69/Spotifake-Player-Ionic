@@ -14,10 +14,11 @@ import {NativeAudio} from '@ionic-native/native-audio/ngx';
 import {PlaylistPageModule} from './playlist/playlist.module';
 import {MorePageModule} from './more/more.module';
 import {UserService} from './user.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, SharedModule, PlaylistPageModule, MorePageModule],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, SharedModule, PlaylistPageModule, MorePageModule, HttpClientModule],
     providers: [
         StatusBar,
         SplashScreen,

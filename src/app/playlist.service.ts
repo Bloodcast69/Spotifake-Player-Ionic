@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {ISong} from './home/home.page';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -10,30 +12,10 @@ export class PlaylistService {
     public _currentPlayedAlbum: ISong;
     private currentPlayedAlbum$: Subject<ISong> = new Subject<ISong>();
 
-    public _songsList: ISong[] = [
-        {
-            albumName: 'Test Album 1',
-            albumArtist: 'Test Artist 1',
-            coverSrc: 'assets/cover_1.png',
-            songAddress: 'assets/song1.mp3',
-            songName: 'Test Song 1'
-        },
-        {
-            albumName: 'Test Album 2',
-            albumArtist: 'Test Artist 2',
-            coverSrc: 'assets/cover_2.png',
-            songAddress: 'assets/song2.mp3',
-            songName: 'Test Song 2'
-        },
-        {
-            albumName: 'Test Album 3',
-            albumArtist: 'Test Artist 3',
-            coverSrc: 'assets/cover_3.png',
-            songAddress: 'assets/song3.mp3',
-            songName: 'Test Song 3'
-        },
-    ];
+    public _songsList: ISong[];
     private songsList$: Subject<any> = new Subject<any>();
+
+    private playlistLoaded$: Subject<ISong[]> = new Subject<ISong[]>();
 
     set currentPlayedAlbum(album: ISong) {
         this._currentPlayedAlbum = album;
@@ -62,6 +44,11 @@ export class PlaylistService {
         return this.songsList$;
     }
 
+    public playlistLoaded(): Observable<ISong[]> {
+        console.log('PLAYLIST LOADED');
+        return this.playlistLoaded$;
+    }
+
     public getSongIndex(searchSong: ISong): number {
         return this.songsList.findIndex((song) => song === searchSong);
     }
@@ -76,7 +63,15 @@ export class PlaylistService {
         return this.songsList[songIndex + 1];
     }
 
+    public loadPlaylist() {
+        this.httpClient.get(`${environment.api}/playlist`).subscribe((playlist: ISong[]) => {
+            this.songsList = playlist;
+            this.playlistLoaded$.next(playlist);
+        });
+    }
 
-    constructor() {
+
+    constructor(private httpClient: HttpClient) {
+        this.loadPlaylist();
     }
 }

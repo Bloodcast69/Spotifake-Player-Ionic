@@ -17,6 +17,7 @@
             <ion-button expand="block" (click)="registerAccount()" [disabled]="loading || form.invalid || !passwordsAreCorrect()">Register
               <ion-spinner name="crescent" *ngIf="loading"></ion-spinner>
             </ion-button>
+            <p>Back to <span (click)="router.navigate(['login'])" class="font-color__green">Login page</span></p>
           </ion-card-content>
         </ion-card>
       </ion-col>

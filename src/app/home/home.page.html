@@ -1,4 +1,4 @@
-<ion-content scroll-y="false">
+<ion-content scroll-y="false" *ngIf="songsList; else noSongs">
     <ion-grid class="ion-padding" >
         <ion-row class="ion-justify-content-between ion-align-items-center">
             <ion-col>
@@ -77,3 +77,7 @@
 
 
 </ion-content>
+
+<ng-template #noSongs>
+    <ion-spinner name="crescent"></ion-spinner>
+</ng-template>

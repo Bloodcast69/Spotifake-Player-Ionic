@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
     logIn() {
         const user = this.form.value;
         this.loading = true;
-        this.userService.login(user).subscribe((a) => {
+        this.userService.login(user).subscribe(() => {
             this.router.navigate(['home']);
             this.loading = false;
         });

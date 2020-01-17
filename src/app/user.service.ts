@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, Subject, timer} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../environments/environment';
+import {ILoginResponse} from './interfaces/login-response.interface';
 
 export interface IUser {
     login: string;
@@ -9,10 +12,9 @@ export interface IUser {
 
 @Injectable()
 export class UserService {
-    private _user: IUser | null = {login: 'user@example.com', password: 'user123'};
-    public registeredUsers: IUser[] = [
-        {login: 'user@example.com', password: 'user123'}
-    ];
+    private _user: IUser | null;
+    private _isLoggedIn: boolean;
+
     private userContext$: Subject<IUser> = new Subject<IUser>();
 
     public get user() {
@@ -23,34 +25,28 @@ export class UserService {
         this._user = user;
     }
 
-    constructor() {
+    public get isLoggedIn(): boolean {
+        return this._isLoggedIn;
+    }
+
+    public set isLoggedIn(state: boolean) {
+        this._isLoggedIn = state;
+    }
+
+    constructor(private httpClient: HttpClient) {
     }
 
     public login(user: IUser) {
-        const foundUser = this.registeredUsers.find((registeredUser: IUser) =>
-            registeredUser.login === user.login && registeredUser.password === user.password);
-        const foundUser$ = of(foundUser);
-        return timer(1000).pipe(switchMap(() => {
-            if (foundUser) {
-                this.user = user;
-                this.userContext$.next(user);
-            } else {
-                this.user = null;
-            }
-
-            return foundUser$;
+        return this.httpClient.post(`${environment.api}/login`, user).pipe(switchMap((response: ILoginResponse) => {
+            this.user = {login: response.login, password: response.password};
+            this.userContext$.next(this.user);
+            this.isLoggedIn = response.loggedIn;
+            return of(this.isLoggedIn);
         }));
     }
 
-    public logout() {
-        this.user = null;
-        this.userContext$.next(null);
-        return timer(1000);
-    }
-
     public register(user: IUser) {
-        this.registeredUsers.push(user);
-        return timer(1000);
+        return this.httpClient.post(`${environment.api}/register`, user);
     }
 
     public userContextChanges(): Observable<IUser> {
