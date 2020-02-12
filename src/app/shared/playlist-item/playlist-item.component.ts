@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {ISong} from '../../home/home.page';
+import {ISong} from '../../player/player-page.component';
 import {getSongTime} from '../getSongTime';
 
 @Component({

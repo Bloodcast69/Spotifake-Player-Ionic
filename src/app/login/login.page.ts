@@ -16,6 +16,10 @@ export class LoginPage implements OnInit {
     });
 
     constructor(private userService: UserService, private router: Router) {
+        this.form.setValue({
+            login: 'user@example.com',
+            password: 'user123'
+        });
     }
 
 
@@ -26,7 +30,7 @@ export class LoginPage implements OnInit {
         const user = this.form.value;
         this.loading = true;
         this.userService.login(user).subscribe(() => {
-            this.router.navigate(['home']);
+            this.router.navigate(['player']);
             this.loading = false;
         });
     }

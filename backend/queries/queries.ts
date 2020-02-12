@@ -1,6 +1,7 @@
 import {LoginQuery} from './login.query';
 import {RegisterQuery} from './register.query';
-import {PlaylistQuery} from './playlist.query';
+import {SongsQuery} from './songs.query';
+import {SearchSongsQuery} from './search-songs.query';
 
 export class Queries {
     public LoginQuery() {
@@ -13,9 +14,14 @@ export class Queries {
         return registerQuery;
     }
 
-    public PlaylistQuery() {
-        const playlistQuery = new PlaylistQuery();
-        return playlistQuery;
+    public SongsQuery() {
+        const songsQuery = new SongsQuery();
+        return songsQuery;
+    }
+
+    public SearchSongsQuery() {
+        const searchSongsQuery = new SearchSongsQuery();
+        return searchSongsQuery;
     }
 }
 

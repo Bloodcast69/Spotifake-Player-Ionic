@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {AuthGuard} from './auth.guard';
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: './home/home.module#HomePageModule', canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'player', pathMatch: 'full' },
+  { path: 'player', loadChildren: './player/player.module#PlayerPageModule', canActivate: [AuthGuard] },
   { path: 'playlist', loadChildren: './playlist/playlist.module#PlaylistPageModule', canActivate: [AuthGuard] },
   { path: 'more', loadChildren: './more/more.module#MorePageModule', canActivate: [AuthGuard] },
   { path: 'main', loadChildren: './main/main.module#MainPageModule', canActivate: [AuthGuard] },

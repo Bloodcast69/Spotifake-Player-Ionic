@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {ISong} from '../../home/home.page';
+import {ISong} from '../../player/player-page.component';
 import {PlaylistPage} from '../../playlist/playlist.page';
 import {ModalController} from '@ionic/angular';
 import {getSongTime} from '../getSongTime';

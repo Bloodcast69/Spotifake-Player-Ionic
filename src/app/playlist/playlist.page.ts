@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ISong} from '../home/home.page';
+import {ISong} from '../player/player-page.component';
 import {PlaylistService} from '../playlist.service';
 import {ModalController} from '@ionic/angular';
 
@@ -14,11 +14,11 @@ export class PlaylistPage implements OnInit {
     playlistSongs: ISong[];
 
     constructor(private playlistService: PlaylistService, private modalController: ModalController) {
-        this.playlistService.loadPlaylist();
+        this.playlistService.loadSongs();
     }
 
     ngOnInit() {
-        this.playlistService.playlistLoaded().subscribe((playlist: ISong[]) => {
+        this.playlistService.songsLoaded().subscribe((playlist: ISong[]) => {
             this.playlistSongs = playlist;
             this.activeSlideImage = playlist[0];
         });

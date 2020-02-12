@@ -6,7 +6,8 @@ const queries = new Queries();
 
 app.post('/api/login', queries.LoginQuery().loginUser);
 app.post('/api/register', queries.RegisterQuery().registerUser);
-app.get('/api/playlist', queries.PlaylistQuery().getPlaylist);
+app.get('/api/songs', queries.SongsQuery().getSongs);
+app.get('/api/search-songs', queries.SearchSongsQuery().getSongsSearch);
 
 app.listen(PORT, () => {
     console.log(`Express server listening on port: ${PORT}`);

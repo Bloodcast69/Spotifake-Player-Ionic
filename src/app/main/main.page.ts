@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
-import {IUser, UserService} from '../user.service';
+import {ISong} from '../player/player-page.component';
+import {PlaylistService} from '../playlist.service';
+import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,20 +10,20 @@ import {Router} from '@angular/router';
     styleUrls: ['./main.page.scss'],
 })
 export class MainPage {
-    public user: IUser;
+    filteredSongs$: Observable<ISong[]> | null;
 
-    constructor(private router: Router, private userService: UserService) {
-        this.userService.userContextChanges().subscribe((userContext: IUser) => {
-            this.user = userContext;
-        });
+    constructor(private playlistService: PlaylistService, private router: Router) { }
+
+    public searchSong(event: any): void {
+        if (!event.detail.value) {
+            return;
+        }
+
+        this.filteredSongs$ = this.playlistService.searchSongs(event.detail.value);
     }
 
-    redirectToPlayer() {
-        this.router.navigate(['home']);
+    public openPlaylist(event: ISong): void {
+        this.playlistService.currentPlayedSong = event;
+        this.router.navigate(['player']);
     }
-
-    logIn() {
-        this.router.navigate(['login']);
-    }
-
 }

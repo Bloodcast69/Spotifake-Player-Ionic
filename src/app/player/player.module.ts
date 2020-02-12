@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { HomePage } from './home.page';
+import { PlayerPage } from './player-page.component';
 import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
@@ -15,11 +15,11 @@ import {SharedModule} from '../shared/shared.module';
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
+        component: PlayerPage
       }
     ]),
       SharedModule,
   ],
-  declarations: [HomePage]
+  declarations: [PlayerPage]
 })
-export class HomePageModule {}
+export class PlayerPageModule {}

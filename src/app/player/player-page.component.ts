@@ -14,11 +14,11 @@ export interface ISong {
 }
 
 @Component({
-    selector: 'app-home',
-    templateUrl: 'home.page.html',
-    styleUrls: ['home.page.scss'],
+    selector: 'app-player',
+    templateUrl: 'player-page.component.html',
+    styleUrls: ['player-page.component.scss'],
 })
-export class HomePage implements AfterViewInit {
+export class PlayerPage implements AfterViewInit {
     @ViewChild('albumCovers') albumCovers: any;
     @ViewChild(IonSlides) slides: IonSlides;
     @ViewChild('albumInfoOverlay') albumInfoOverlay: ElementRef;
@@ -42,17 +42,15 @@ export class HomePage implements AfterViewInit {
         private router: Router) {
 
 
-        this.playlistService.playlistLoaded().subscribe((playlist: ISong[]) => {
+        this.playlistService.songsLoaded().subscribe(() => {
             this.songsList = this.playlistService.songsList;
             this.activeSong = this.songsList[0];
-            this.playlistService.currentPlayedAlbum = this.songsList[0];
+            this.playlistService.currentPlayedSong = this.songsList[0];
             this.nextSong = this.playlistService.getNextSong(this.activeSong);
-            this.activeSong = this.songsList[0];
         });
 
         this.playlistService.songsListChange().subscribe((songs: any) => {
             this.songsList = songs;
-            this.activeSong = this.songsList[0];
         });
 
         this.audio.addEventListener('timeupdate', () => {
@@ -60,11 +58,17 @@ export class HomePage implements AfterViewInit {
             this.getSongTime(this.currentAudioTime);
         });
 
+
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => {
-        }, 0);
+        this.playlistService.currentPlayedSongChange().subscribe(() => {
+            setTimeout(() => {
+                this.activeSong = this.playlistService.currentPlayedSong;
+                this.nextSong = this.playlistService.getNextSong(this.activeSong);
+                this.slides.slideTo(this.playlistService.getSongIndex(this.activeSong));
+            }, 0);
+        });
     }
 
     playSong() {
@@ -99,7 +103,7 @@ export class HomePage implements AfterViewInit {
         this.slides.getActiveIndex().then((slideIndex: any) => {
             this.activeSong = this.songsList[slideIndex];
             this.nextSong = this.playlistService.getNextSong(this.activeSong);
-            this.playlistService.currentPlayedAlbum = this.activeSong;
+            this.playlistService.currentPlayedSong = this.activeSong;
         });
     }
 

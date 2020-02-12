@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {PlaylistService} from '../playlist.service';
-import {ISong} from '../home/home.page';
+import {ISong} from '../player/player-page.component';
 import {ModalController} from '@ionic/angular';
 
 @Component({

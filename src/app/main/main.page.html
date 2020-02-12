@@ -1,14 +1,30 @@
 <ion-content scroll-y="false">
     <ion-grid class="ion-padding h-100">
         <ion-row style="display: flex; flex-direction: column" class="h-100">
-            <ion-col style="display: flex; flex-direction: column" class="ion-text-center ion-justify-content-center">
-              <ng-container *ngIf="user; else noUser">
-                <p class="font-color__white ion-text-center">You're logged in as {{user.login}}</p>
-                <ion-button expand="block" (click)="redirectToPlayer()">Go to Spotifake</ion-button>
-              </ng-container>
-              <ng-template #noUser><p class="font-color__white">You're not logged in. Tap below button to log into Spotifake.</p>
-                <ion-button expand="block" (click)="logIn()">Log in</ion-button>
-              </ng-template>
+            <ion-col style="display: flex; flex-direction: column" class="ion-text-center">
+                <div style="height: 40px;">
+                    <ion-searchbar #ionSearchbar placeholder="Search a song..." class="search-input" debounce="400"
+                                   (ionChange)="searchSong($event)"></ion-searchbar>
+                    <ng-container *ngIf="filteredSongs$ | async as songs; else loading">
+                        <ng-container *ngIf="songs && ionSearchbar.value">
+                            <ion-list *ngFor="let song of songs">
+                                <ion-item class="song-item" button="true" (click)="openPlaylist(song)">
+                                    <ion-avatar>
+                                        <img [src]="song.coverSrc">
+                                    </ion-avatar>
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span class="ion-padding-horizontal">{{song.songName}}</span>
+                                        <small class="ion-padding-horizontal">{{song.albumArtist}}
+                                            - {{song.albumName}}</small>
+                                    </div>
+                                </ion-item>
+                            </ion-list>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #loading>
+                        <p>Loading songs list...</p>
+                    </ng-template>
+                </div>
             </ion-col>
         </ion-row>
     </ion-grid>

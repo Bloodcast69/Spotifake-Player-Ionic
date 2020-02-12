@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {ISong} from './home/home.page';
+import {ISong} from './player/player-page.component';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../environments/environment';
 
@@ -9,25 +9,25 @@ import {environment} from '../environments/environment';
 })
 export class PlaylistService {
 
-    public _currentPlayedAlbum: ISong;
-    private currentPlayedAlbum$: Subject<ISong> = new Subject<ISong>();
+    public _currentPlayedSong: ISong;
+    private currentPlayedSong$: Subject<ISong> = new Subject<ISong>();
 
     public _songsList: ISong[];
     private songsList$: Subject<any> = new Subject<any>();
 
-    private playlistLoaded$: Subject<ISong[]> = new Subject<ISong[]>();
+    private songsLoaded$: Subject<ISong[]> = new Subject<ISong[]>();
 
-    set currentPlayedAlbum(album: ISong) {
-        this._currentPlayedAlbum = album;
-        this.currentPlayedAlbum$.next(album);
+    set currentPlayedSong(song: ISong) {
+        this._currentPlayedSong = song;
+        this.currentPlayedSong$.next(song);
     }
 
-    get currentPlayedAlbum() {
-        return this._currentPlayedAlbum;
+    get currentPlayedSong() {
+        return this._currentPlayedSong;
     }
 
-    public currentPlayedAlbumChange(): Observable<ISong> {
-        return this.currentPlayedAlbum$;
+    public currentPlayedSongChange(): Observable<ISong> {
+        return this.currentPlayedSong$;
     }
 
     set songsList(songsArray: ISong[]) {
@@ -44,13 +44,14 @@ export class PlaylistService {
         return this.songsList$;
     }
 
-    public playlistLoaded(): Observable<ISong[]> {
-        console.log('PLAYLIST LOADED');
-        return this.playlistLoaded$;
+    public songsLoaded(): Observable<ISong[]> {
+        return this.songsLoaded$;
     }
 
     public getSongIndex(searchSong: ISong): number {
-        return this.songsList.findIndex((song) => song === searchSong);
+        return this.songsList.findIndex((song) =>
+            song.albumArtist === searchSong.albumArtist &&
+            song.songName === searchSong.songName);
     }
 
     public getNextSong(searchSong: ISong): ISong {
@@ -63,15 +64,19 @@ export class PlaylistService {
         return this.songsList[songIndex + 1];
     }
 
-    public loadPlaylist() {
-        this.httpClient.get(`${environment.api}/playlist`).subscribe((playlist: ISong[]) => {
-            this.songsList = playlist;
-            this.playlistLoaded$.next(playlist);
+    public loadSongs() {
+        this.httpClient.get(`${environment.api}/songs`).subscribe((songs: ISong[]) => {
+            this.songsList = songs;
+            this.songsLoaded$.next(songs);
         });
+    }
+
+    public searchSongs(query: string): Observable<any> {
+        return this.httpClient.get(`${environment.api}/search-songs`, {params: {query}});
     }
 
 
     constructor(private httpClient: HttpClient) {
-        this.loadPlaylist();
+        this.loadSongs();
     }
 }
