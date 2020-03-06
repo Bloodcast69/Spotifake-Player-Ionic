@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {IonSlides, ModalController} from '@ionic/angular';
-import {PlaylistService} from '../playlist.service';
+import {ApiService} from '../api.service';
 import {getSongTime} from '../shared/getSongTime';
 import {MorePage} from '../more/more.page';
 import {Router} from '@angular/router';
@@ -37,7 +37,7 @@ export class PlayerPage implements AfterViewInit {
     nextSong: ISong;
 
     constructor(
-        private playlistService: PlaylistService,
+        private playlistService: ApiService,
         private modalController: ModalController,
         private router: Router) {
 

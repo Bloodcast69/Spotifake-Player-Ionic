@@ -1,0 +1,36 @@
+<ion-content>
+  <ion-grid class="ion-no-padding" *ngIf="albumSongs; else noSongs">
+    <ion-row class="ion-justify-content-between ion-align-items-center playlist-info__bar">
+      <ion-col class="ion-text-center ">
+        <div class="ion-padding">
+          <p class="ion-text-left ion-no-margin font-size__medium font-color__green">{{activeSlideImage.songName}}</p>
+          <p class="ion-text-left ion-no-margin font-size__small font-color__gray">{{activeSlideImage.albumArtist}}</p>
+        </div>
+      </ion-col>
+      <ion-col class="ion-align-self-end ion-text-end h-100">
+        <img src="assets/Play_active.png" alt="" class="h-100">
+      </ion-col>
+    </ion-row>
+
+    <div class="ion-padding">
+      <ion-row>
+        <ion-col>
+          <ion-list lines="none" class="saturate">
+            <ion-item *ngFor="let song of albumSongs; let i = index" class="ion-no-padding ion-align-items-end">
+              <playlist-item [song]="song" [iterator]="i"></playlist-item>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="d-flex flex-direction-column ion-align-items-center">
+          <img src="assets/hide_ico.png" class="ion-margin-top" (click)="closePlaylist()">
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+</ion-content>
+
+<ng-template #noSongs>
+  <ion-spinner name="crescent"></ion-spinner>
+</ng-template>

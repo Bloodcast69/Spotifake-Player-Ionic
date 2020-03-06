@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ISong} from '../player/player-page.component';
-import {PlaylistService} from '../playlist.service';
+import {ApiService} from '../api.service';
 import {ModalController} from '@ionic/angular';
 
 @Component({
@@ -13,11 +13,12 @@ export class PlaylistPage implements OnInit {
 
     playlistSongs: ISong[];
 
-    constructor(private playlistService: PlaylistService, private modalController: ModalController) {
+    constructor(private playlistService: ApiService, private modalController: ModalController) {
         this.playlistService.loadSongs();
     }
 
     ngOnInit() {
+        console.log('playlist');
         this.playlistService.songsLoaded().subscribe((playlist: ISong[]) => {
             this.playlistSongs = playlist;
             this.activeSlideImage = playlist[0];

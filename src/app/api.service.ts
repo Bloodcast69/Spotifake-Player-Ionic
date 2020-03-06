@@ -7,7 +7,7 @@ import {environment} from '../environments/environment';
 @Injectable({
     providedIn: 'root'
 })
-export class PlaylistService {
+export class ApiService {
 
     public _currentPlayedSong: ISong;
     private currentPlayedSong$: Subject<ISong> = new Subject<ISong>();
@@ -73,6 +73,10 @@ export class PlaylistService {
 
     public searchSongs(query: string): Observable<any> {
         return this.httpClient.get(`${environment.api}/search-songs`, {params: {query}});
+    }
+
+    public getAlbumInfo(albumName: string): Observable<ISong[]> {
+        return this.httpClient.get<ISong[]>(`${environment.api}/album-info`, { params: {albumName}});
     }
 
 

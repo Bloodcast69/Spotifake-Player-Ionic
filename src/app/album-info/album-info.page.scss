@@ -1,0 +1,30 @@
+:host {
+  --ion-background-color: #fff;
+}
+
+.playlist-info__bar {
+  height: 80px;
+  background-color: #1b1b1b;
+}
+
+.playlist-info__iterator {
+  margin-top: 3px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+ion-button {
+  --background: #37b34a;
+  --border-radius: 30px;
+  width: 100%;
+}
+
+ion-item {
+  --ion-safe-area-right: 0;
+}

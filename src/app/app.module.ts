@@ -9,12 +9,13 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {SharedModule} from './shared/shared.module';
-import {PlaylistService} from './playlist.service';
+import {ApiService} from './api.service';
 import {NativeAudio} from '@ionic-native/native-audio/ngx';
 import {PlaylistPageModule} from './playlist/playlist.module';
 import {MorePageModule} from './more/more.module';
 import {UserService} from './user.service';
 import {HttpClientModule} from '@angular/common/http';
+import {AlbumInfoPageModule} from './album-info/album-info.module';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,13 +26,14 @@ import {HttpClientModule} from '@angular/common/http';
         SharedModule,
         PlaylistPageModule,
         MorePageModule,
+        AlbumInfoPageModule,
         HttpClientModule
     ],
     providers: [
         StatusBar,
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-        PlaylistService,
+        ApiService,
         NativeAudio,
         UserService
     ],

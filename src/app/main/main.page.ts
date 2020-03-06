@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ISong} from '../player/player-page.component';
-import {PlaylistService} from '../playlist.service';
+import {ApiService} from '../api.service';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 export class MainPage {
     filteredSongs$: Observable<ISong[]> | null;
 
-    constructor(private playlistService: PlaylistService, private router: Router) { }
+    constructor(private playlistService: ApiService, private router: Router) { }
 
     public searchSong(event: any): void {
         if (!event.detail.value) {
